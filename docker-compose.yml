@@ -1,0 +1,10 @@
+version: '3.8'
+
+services:
+  econet-mqtt-publisher:
+    build: .
+    container_name: econet-mqtt-publisher
+    environment:
+      - ECONET_ENDPOINT=10.150.2.225
+      - MQTT_HOST=server
+    restart: unless-stopped
