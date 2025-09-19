@@ -11,8 +11,6 @@ A Python-based MQTT publisher that reads data from an Econet heat pump controlle
 - Publishes 13 different heat pump metrics to MQTT topics
 - **Home Assistant MQTT discovery** - automatic entity creation
 - Runs in Docker container
-- Graceful shutdown handling
-- Comprehensive logging
 
 ## Environment Variables
 
@@ -26,7 +24,7 @@ A Python-based MQTT publisher that reads data from an Econet heat pump controlle
 | `ECONET_ENDPOINT` | - | **Yes** | Econet controller IP/hostname (without http://) |
 | `POLLING_INTERVAL` | `10` | No | Polling interval in seconds |
 | `HA_DISCOVERY_MESSAGES` | `true` | No | Enable Home Assistant MQTT discovery |
-| `HA_DISCOVERY_NAME` | `Grant R290 ASHP` | No | Device name for Home Assistant discovery |
+| `HA_DISCOVERY_NAME` | `Grant R290` | No | Device name for Home Assistant discovery |
 
 ## Published Topics
 
@@ -52,15 +50,9 @@ When `HA_DISCOVERY_MESSAGES` is enabled (default), the publisher automatically c
 
 - **No manual configuration needed** - entities appear automatically in Home Assistant
 - **Proper device classes** - temperature sensors show with °C, pressure with bar, etc.
-- **Meaningful names** - "ASHP Flow Temperature" instead of technical topic names
+- **Meaningful names** - "ASHP Flow Temperature" instead of topic names
 - **Appropriate icons** - thermometers for temperatures, fans for fan speed, etc.
 - **Device grouping** - all sensors appear under a single device (configurable name, defaults to "Grant R290 ASHP")
-
-### Supported Entity Types
-
-- **Temperature sensors**: All temperature readings with proper °C units and thermometer icons
-- **Binary sensors**: Pump active status with on/off states
-- **Regular sensors**: Frequencies, pressures, speeds, and state values
 
 ### Discovery Topics
 
@@ -121,10 +113,6 @@ services:
     environment:
       - ECONET_ENDPOINT=192.168.1.100
       - MQTT_HOST=mqtt.local
-      - MQTT_USERNAME=myuser
-      - MQTT_PASSWORD=mypass
-      - POLLING_INTERVAL=30
-      - HA_DISCOVERY_NAME=My Heat Pump
     restart: unless-stopped
 ```
 
@@ -155,16 +143,6 @@ export ECONET_ENDPOINT=192.168.1.100
 export MQTT_HOST=mqtt.local
 python mqtt_publisher.py
 ```
-
-## Logging
-
-- Standard output: Normal operation logs including polled values
-- Standard error: Error messages and exceptions
-- All logs include timestamps and log levels
-
-## Graceful Shutdown
-
-The publisher handles `SIGTERM` and `SIGINT` signals for graceful shutdown, ensuring proper cleanup of MQTT connections.
 
 ## Requirements
 
