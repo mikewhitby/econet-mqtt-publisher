@@ -56,6 +56,7 @@ class EconetMQTTPublisher:
 
         # Topic mapping: topic_name -> JSON path
         self.topic_mappings = {
+            'ashp_ambient_air_temp': ['curr', 'AxenOutdoorTemp'],
             'ashp_circuit1_calculated_set_temp': ['tilesParams', 29, 0, 0],
             'ashp_compressor_freq': ['curr', 'AxenCompressorFreq'],
             'ashp_fan_speed': ['tilesParams', 3, 0, 0],
@@ -73,6 +74,12 @@ class EconetMQTTPublisher:
 
         # Home Assistant discovery metadata
         self.ha_discovery_configs = {
+            'ashp_ambient_air_temp': {
+                'name': 'ASHP Ambient Air Temperature',
+                'device_class': 'temperature',
+                'unit_of_measurement': '°C',
+                'icon': 'mdi:thermometer'
+            },
             'ashp_circuit1_calculated_set_temp': {
                 'name': 'ASHP Circuit 1 Calculated Set Temperature',
                 'device_class': 'temperature',
@@ -128,7 +135,7 @@ class EconetMQTTPublisher:
                 'payload_off': '0'
             },
             'circuit1_thermostat': {
-                'name': 'Circuit 1 Thermostat',
+                'name': 'Circuit 1 Thermostat Temperature',
                 'device_class': 'temperature',
                 'unit_of_measurement': '°C',
                 'icon': 'mdi:thermostat'
@@ -140,7 +147,7 @@ class EconetMQTTPublisher:
                 'icon': 'mdi:water-thermometer'
             },
             'outdoor_temp': {
-                'name': 'Outdoor Temperature',
+                'name': 'Outdoor Sensor Temperature',
                 'device_class': 'temperature',
                 'unit_of_measurement': '°C',
                 'icon': 'mdi:thermometer'
