@@ -308,6 +308,10 @@ class EconetMQTTPublisher:
             if 'unit_of_measurement' in config:
                 discovery_payload['unit_of_measurement'] = config['unit_of_measurement']
 
+            # Add state class if specified (enables long-term statistics in HA)
+            if 'state_class' in config:
+                discovery_payload['state_class'] = config['state_class']
+
             # Add binary sensor specific payloads
             if component == 'binary_sensor':
                 if 'payload_on' in config:
