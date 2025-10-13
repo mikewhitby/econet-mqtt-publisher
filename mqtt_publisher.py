@@ -51,6 +51,12 @@ class EconetMQTTPublisher:
         self.mqtt_client.on_connect = self._on_mqtt_connect
         self.mqtt_client.on_disconnect = self._on_mqtt_disconnect
 
+        # MQTT availability (LWT) setup
+        # Use a single availability topic for this publisher
+        self.availability_topic = f"{self.mqtt_topic_prefix}availability"
+        # Set Last Will to offline, retained, so HA marks entities unavailable if we disconnect unexpectedly
+        self.mqtt_client.will_set(self.availability_topic, payload="offline", retain=True)
+
         # Econet credentials (fixed as per instructions)
         self.econet_auth = HTTPBasicAuth('admin', 'admin')
 
@@ -199,6 +205,11 @@ class EconetMQTTPublisher:
         """MQTT connection callback"""
         if rc == 0:
             logger.info("Connected to MQTT broker")
+            # Mark this integration as available
+            try:
+                self.mqtt_client.publish(self.availability_topic, "online", retain=True)
+            except Exception as e:
+                logger.error(f"Failed to publish availability online status: {e}")
         else:
             logger.error(f"Failed to connect to MQTT broker, return code {rc}")
 
@@ -277,8 +288,17 @@ class EconetMQTTPublisher:
                 "unique_id": unique_id,
                 "state_topic": state_topic,
                 "device": device_info,
-                "icon": config.get('icon', 'mdi:gauge')
+                "icon": config.get('icon', 'mdi:gauge'),
+                # MQTT availability
+                "availability_topic": self.availability_topic,
+                "payload_available": "online",
+                "payload_not_available": "offline"
             }
+
+            # Only sensors (not binary_sensors) support expire_after
+            if component == 'sensor':
+                # Mark sensor unavailable if no update received within 4x polling interval
+                discovery_payload['expire_after'] = self.polling_interval * 4
 
             # Add device class if specified
             if 'device_class' in config:
@@ -366,6 +386,11 @@ class EconetMQTTPublisher:
 
     def disconnect_mqtt(self):
         """Disconnect from MQTT broker"""
+        # On clean shutdown, mark availability as offline
+        try:
+            self.mqtt_client.publish(self.availability_topic, "offline", retain=True)
+        except Exception as e:
+            logger.error(f"Failed to publish availability offline status: {e}")
         self.mqtt_client.loop_stop()
         self.mqtt_client.disconnect()
 
