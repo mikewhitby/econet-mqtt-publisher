@@ -77,40 +77,49 @@ class EconetMQTTPublisher:
             'ashp_ambient_air_temp': {
                 'name': 'ASHP Ambient Air Temperature',
                 'device_class': 'temperature',
+                'state_class': 'measurement',
                 'unit_of_measurement': '°C',
                 'icon': 'mdi:thermometer'
             },
             'ashp_circuit1_calculated_set_temp': {
                 'name': 'ASHP Circuit 1 Calculated Set Temperature',
                 'device_class': 'temperature',
+                'state_class': 'measurement',
                 'unit_of_measurement': '°C',
                 'icon': 'mdi:thermometer'
             },
             'ashp_compressor_freq': {
                 'name': 'ASHP Compressor Frequency',
+                'device_class': 'frequency',
+                'state_class': 'measurement',
                 'unit_of_measurement': 'Hz',
                 'icon': 'mdi:sine-wave'
             },
             'ashp_fan_speed': {
                 'name': 'ASHP Fan Speed',
+                'device_class': 'speed',
+                'state_class': 'measurement',
                 'unit_of_measurement': 'rpm',
                 'icon': 'mdi:fan'
             },
             'ashp_flow_temp': {
                 'name': 'ASHP Flow Temperature',
                 'device_class': 'temperature',
+                'state_class': 'measurement',
                 'unit_of_measurement': '°C',
                 'icon': 'mdi:thermometer-chevron-up'
             },
             'ashp_outlet_water_pressure': {
                 'name': 'ASHP Outlet Water Pressure',
                 'device_class': 'pressure',
+                'state_class': 'measurement',
                 'unit_of_measurement': 'bar',
                 'icon': 'mdi:gauge'
             },
             'ashp_pump_active': {
                 'name': 'ASHP Pump',
                 'device_class': 'running',
+                'state_class': 'measurement',
                 'icon': 'mdi:pump',
                 'payload_on': '1',
                 'payload_off': '0'
@@ -118,18 +127,21 @@ class EconetMQTTPublisher:
             'ashp_return_temp': {
                 'name': 'ASHP Return Temperature',
                 'device_class': 'temperature',
+                'state_class': 'measurement',
                 'unit_of_measurement': '°C',
                 'icon': 'mdi:thermometer-chevron-down'
             },
             'ashp_target_temp': {
                 'name': 'ASHP Target Temperature',
                 'device_class': 'temperature',
+                'state_class': 'measurement',
                 'unit_of_measurement': '°C',
                 'icon': 'mdi:thermometer'
             },
             'ashp_work_state': {
                 'name': 'ASHP Work State',
                 'device_class': 'running',
+                'state_class': 'measurement',
                 'icon': 'mdi:state-machine',
                 'payload_on': '1',
                 'payload_off': '0'
@@ -137,25 +149,28 @@ class EconetMQTTPublisher:
             'circuit1_thermostat': {
                 'name': 'Circuit 1 Thermostat Temperature',
                 'device_class': 'temperature',
+                'state_class': 'measurement',
                 'unit_of_measurement': '°C',
                 'icon': 'mdi:thermostat'
             },
             'dhw_temp': {
                 'name': 'Cylinder Temperature',
                 'device_class': 'temperature',
+                'state_class': 'measurement',
                 'unit_of_measurement': '°C',
                 'icon': 'mdi:water-thermometer'
             },
             'outdoor_temp': {
                 'name': 'Outdoor Sensor Temperature',
                 'device_class': 'temperature',
+                'state_class': 'measurement',
                 'unit_of_measurement': '°C',
                 'icon': 'mdi:thermometer'
             },
             'three_way_valve_state': {
                 'name': 'Three Way Valve State',
-                'icon': 'mdi:valve',
                 'device_class': 'enum',
+                'icon': 'mdi:valve',
                 'options': ['CH', 'DHW']
             }
         }
