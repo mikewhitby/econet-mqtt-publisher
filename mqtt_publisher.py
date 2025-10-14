@@ -103,7 +103,6 @@ class EconetMQTTPublisher:
             },
             'ashp_fan_speed': {
                 'name': 'ASHP Fan Speed',
-                'device_class': 'speed',
                 'state_class': 'measurement',
                 'unit_of_measurement': 'rpm',
                 'icon': 'mdi:fan'
